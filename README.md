@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Machine Learning Stock Price Prediction
 ## Application Suitability
 1. **Why is this application relevant?**
@@ -395,6 +394,4 @@ Cache High Availability is achieved through a master-slave setup in Redis, provi
 
 # Data Warehouse and ETL
 The Data Warehouse and ETL process consolidates data across services, supporting advanced analytics and reporting. This setup enables data-driven insights for performance monitoring and strategic decision-making, enhancing service quality and predictive accuracy.
-=======
-# PAD_Labs
->>>>>>> 0adfc7298e7ad8b1ee4e8ad5e279c19d3eedde2d
+
