@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "ac73e0d0-c25d-49ba-afab-76e48c22a470",
+		"name": "PAD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38784036"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/api/predict/AAPL",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/predict/AAPL"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/stocks/AAPL/details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imphc2RvbjNAZ21haWwuY29tIn0.HBO9D_pbzLt7dlRE_kxMZLScHMBZZWExDc95Ak2T6i0"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/transactions/store"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/transactions/store",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_id\": \"string\",\r\n  \"symbol\": \"string\",\r\n  \"quantity\": \"number\",\r\n  \"action\": \"buy | sell\",\r\n  \"price\": \"number\",\r\n  \"timestamp\": \"string\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/transactions/store"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/users/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"TEST\",\r\n  \"email\": \"TEST\",\r\n  \"password\": \"TEST\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/users/register"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/users/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"TEST\",\r\n  \"password\": \"TEST\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/users/login"
+			},
+			"response": []
+		},
+		{
+			"name": " http://localhost:5000/api/users/profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5000/api/users/profile"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/users/profile/update",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5000/api/users/profile/update"
+			},
+			"response": []
+		},
+		{
+			"name": " http://localhost:5000/api/users/buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_id\": \"324324\",\r\n  \"symbol\": \"AAPL\",\r\n  \"quantity\": \"1\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/users/buy"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/users/sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_id\": \"32144\",\r\n  \"symbol\": \"GOOGL\",\r\n  \"quantity\": \"2\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/users/sell"
+			},
+			"response": []
+		}
+	]
+}
