@@ -28,20 +28,20 @@ Real-world examples of similar systems using microservices:
 ### Technology Stack and Communication Patterns
 
 1. **API Gateway**:
-   - **Language**: Node.js
-   - **Framework**: Express (RESTful API)
+   - **Language**: Python
+   - **Framework**: Flask
    - **Purpose**: Routes user requests to the Stock Data Service and Prediction Service, and handles WebSocket connections for real-time updates.
 
 2. **Stock Data Service**:
-   - **Language**: Python
-   - **Framework**: Flask
+   - **Language**: Node.js
+   - **Framework**: Express (RESTful API)
    - **External API**: Alpha Vantage (for stock data)
    - **Cache**: Redis (for caching stock data)
    - **Purpose**: Purpose: Fetches and caches historical stock data, communicates with the API Gateway via gRPC.
 
 3. **Prediction Service**:
-   - **Language**: Python
-   - **Framework**: Flask
+   - **Language**: Node.js
+   - **Framework**: Express (RESTful API)
    - **ML Library**: Scikit-learn (for predictions)
    - **Database**: PostgreSQL (for storing predictions)
    - **Purpose**: Purpose: Analyzes stock data, generates predictions, and sends real-time updates via gRPC to the API Gateway.
