@@ -1,12 +1,28 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const axios = require('axios');
-const async = require('async'); // Import async for concurrency control
-const { v4: uuidv4 } = require('uuid'); // For generating unique transaction IDs
+const async = require('async'); 
+const { v4: uuidv4 } = require('uuid'); 
+const client = require('prom-client'); 
 
 const app = express();
 app.use(express.json());
 
+// Prometheus Metrics
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics();
+
+const requestCounter = new client.Counter({
+  name: 'stock_prediction_requests_total',
+  help: 'Total number of requests',
+  labelNames: ['endpoint', 'method', 'status']
+});
+
+const requestHistogram = new client.Histogram({
+  name: 'stock_prediction_request_latency_seconds',
+  help: 'Request latency in seconds',
+  labelNames: ['endpoint', 'method']
+});
 
 // MongoDB Configuration
 const mongoClient = new MongoClient('mongodb://mongo:27017', { useUnifiedTopology: true });
@@ -20,14 +36,14 @@ mongoClient.connect().then((client) => {
   predictionCollection = db.collection('predictions');
   transactionHistoryCollection = db.collection('transaction_history');
   console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('Failed to connect to MongoDB', err);
 });
 
 // Alpha Vantage API Configuration
 const API_KEY = '3FPIPAPG6QSFPTQW'; 
 const BASE_URL = 'https://www.alphavantage.co/query';
 
-//G7AVN9FRKTQCFPCW
-//N59FA06OB6979AGJ
 // Task queue with concurrency limit
 const taskQueue = async.queue(async (task) => task(), 5); 
 
@@ -66,6 +82,21 @@ async function getStockData(symbol) {
   }
 }
 
+// Middleware to measure metrics
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const latency = (Date.now() - start) / 1000;
+    const endpoint = req.path;
+    const method = req.method;
+    const status = res.statusCode.toString();
+
+    requestCounter.labels(endpoint, method, status).inc();
+    requestHistogram.labels(endpoint, method).observe(latency);
+  });
+  next();
+});
+
 // ----------- Endpoints -----------
 
 app.get('/status', (req, res) => {
@@ -87,6 +118,7 @@ app.get('/api/stocks/:symbol/details', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 app.get('/api/predict/:symbol', async (req, res) => {
   const { symbol } = req.params;
@@ -119,6 +151,15 @@ app.post('/api/transactions/store', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Failed to store transaction data' });
   }
+});
+
+
+
+// ----------- Prometheus Metrics Endpoint -----------
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
 });
 
 const PORT = 5000;

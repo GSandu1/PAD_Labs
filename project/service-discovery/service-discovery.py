@@ -1,9 +1,15 @@
-# service-discovery/service-discovery.py
-
 from flask import Flask, request, jsonify
 from threading import Lock
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+
+
+metrics = PrometheusMetrics(app)
+
+@app.route('/metrics', methods=['GET'])
+def metrics_endpoint():
+    return metrics.do_collect()
 
 # In-memory registry
 registry = {}
